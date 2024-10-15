@@ -28,6 +28,7 @@ const AddProduct = () => {
     let formData = new FormData()
     formData.append('product', image)
 
+    //uploadImage into Multer
     await fetch('http://localhost:4000/upload', {
       method: 'POST',
       headers: {
@@ -49,7 +50,7 @@ const AddProduct = () => {
       },
       body: JSON.stringify(product)
     }).then((resp) => resp.json()).then((data) => {
-      data.success ? console.log("Product Added") : console.log("product not Added")
+      data.success ? alert() : console.log("product not Added")
     })
 
   }

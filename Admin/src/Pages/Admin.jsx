@@ -5,12 +5,14 @@ import AddProduct from '../Components/AddProduct'
 import ListProduct from '../Components/ListProduct'
 function Admin() {
   return (
-    <div className='flex sm:flex-row flex-col'>
+    <div className='flex'>
       <SideBar />
-      <Routes>
-        <Route path='/addproduct' element={<AddProduct />} />
-        <Route path='/listproduct' element={<ListProduct />} />
-      </Routes>
+      <div className='flex-1'      >
+        <Routes>
+          <Route path='/addproduct' element={<AddProduct />} />
+          <Route path='/listproduct' element={<ListProduct />} />
+        </Routes>
+      </div>
     </div >
   )
 }

@@ -4,13 +4,17 @@ const app = express()
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 const multer = require('multer')
-
+const cors = require('cors');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+
+// Enable CORS for all routes
+app.use(cors());
+
 // Database Connection With Mongodb
 
-mongoose.connect('mongodb+srv://muhammedaman986:aman369@cluster0.qzezx.mongodb.net/Ecommerce')
+mongoose.connect('mongodb+srv://muhammedaman986:aman369@cluster0.qzezx.mongodb.net/Ecommerce?retryWrites=true&w=majority')
 
 //API Creaction
 
@@ -33,9 +37,8 @@ app.use('/images', express.static('uploads/images'))
 app.post('/upload', upload.single('product'), (req, res) => {
   res.send({
     sucess: 1,
-    imaga_url: `http://localhost:${PORT}/images/${req.file.filename}`
+    image_url: `http://localhost:${PORT}/images/${req.file.filename}`
   })
-
   // console.log(req.file)
 })
 

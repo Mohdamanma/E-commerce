@@ -1,5 +1,9 @@
 # Node modules
 node_modules/
+# Ignore node_modules directories
+backend/node_modules/
+admin/node_modules/
+
 
 # Logs
 *.log
