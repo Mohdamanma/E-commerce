@@ -127,6 +127,37 @@ app.get('/allproduct', async (req, res) => {
   res.send(products)
 })
 
+
+
+//Create Schema UserModel
+
+const Users = mongoose.model('Users', {
+  name: {
+    type: String,
+  },
+  email: {
+    type: String,
+    unique: true
+  },
+  password: {
+    type: String
+  },
+  cartData: {
+    type: Object
+  },
+  date: {
+    type: Date,
+    default: Date.now
+  }
+})
+
+
+//Creating Endpoint for Registring User
+
+app.post('/signup', (req, res) => {
+
+})
+
 app.listen(PORT, (error) => {
   if (!error) {
     console.log("server is Running " + PORT)
