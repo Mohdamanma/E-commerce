@@ -199,8 +199,10 @@ app.post('/login', async (req, res) => {
       const token = jwt.sign(data, 'secret')
       res.status(200).send({
         auth: true,
-        token: token
+        token: token,
+        data: data
       })
+
     } else {
       res.status(500).send({
         auth: false,
@@ -213,6 +215,36 @@ app.post('/login', async (req, res) => {
       auth: false
     })
   }
+})
+
+//MiddleWare for FetchUser
+const FetchUser = (req, res, next) => {
+  const token = req.header('auth-token')
+  if (!token) {
+    res.status(400).send({ error: 'No Token Avaliable on LocalStorage' })
+  } else {
+    try {
+      let data = jwt.verify(token, 'secret')
+      req.user = data.user
+      next()
+    } catch (error) {
+      res.status(400).send("Please Authenticate with Valid Token")
+    }
+  }
+}
+
+
+//Adding Product in CardData
+
+app.post('/addtocart', FetchUser, async (req, res) => {
+  console.log(req.body, req.user)
+  let userData = await Users.findOne({ _id: req.user })
+  userData.cartData[req.body.itemId] += 1
+  await Users.findOneAndUpdate({ _id: req.user.id }, { cartData: userData.cartData })
+  res.status(200).send({
+    sucess: true,
+    item: "Added"
+  })
 })
 
 app.listen(PORT, (error) => {
