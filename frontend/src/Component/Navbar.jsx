@@ -22,14 +22,15 @@ function Navbar() {
             </ul>
             <div className='relative flex items-center  md:gap-10 gap-2'>
                 <Link to='/login'>
-                    <button className='md:w-40 w-28 h-10  outline-none text-xl cursor-pointer border border-black border-solid rounded-full active:bg-red-500 '>Login</button>
+                    {localStorage.getItem('auth-token') ? <button className='md:w-40 w-28 h-10  outline-none text-xl cursor-pointer border border-black border-solid rounded-full active:bg-red-500 ' onClick={() => { localStorage.removeItem('auth-token'); }}>
+                        Logout</button> : <button className='md:w-40 w-28 h-10  outline-none text-xl cursor-pointer border border-black border-solid rounded-full active:bg-red-500 '>Login</button>}
                 </Link>
                 <Link to='/card'>
                     <img src={cart} alt="" />
                     <div className='absolute w-4 h-4 right-14 top-10 font-thin text-white  text-sm rounded-full bg-red-600 flex justify-center items-center -mt-7 -mr-16 '>{getTotalCartItem()}</div>
                 </Link>
-            </div>
-        </div>
+            </div >
+        </div >
     )
 }
 

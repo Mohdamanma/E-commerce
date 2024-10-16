@@ -36,7 +36,7 @@ app.use('/images', express.static('uploads/images'))
 //Upload Image
 app.post('/upload', upload.single('product'), (req, res) => {
   res.send({
-    sucess: 1,
+    success: 1,
     image_url: `http://localhost:${PORT}/images/${req.file.filename}`
   })
   // console.log(req.file)
@@ -152,10 +152,67 @@ const Users = mongoose.model('Users', {
 })
 
 
-//Creating Endpoint for Registring User
+// signup Endpoint for Registring User
 
-app.post('/signup', (req, res) => {
+app.post('/signup', async (req, res) => {
+  let check = await Users.findOne({ email: req.body.email })
+  if (check) {
+    return res.status(400).json({
+      success: false,
+      error: "Email is Already Exisit"
+    })
+  }
+  let cart = []
+  for (let i = 0; i < 300; i++) {
+    cart[i] = 0
+  }
+  let user = new Users({
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password,
+    cartData: cart
+  })
 
+  const data = {
+    user: user.id
+  }
+
+  const token = jwt.sign(data, 'secret', { expiresIn: 86400 })
+  user.save()
+  res.status(200).send({
+    auth: true,
+    token: token
+  })
+})
+
+
+//Endpoint for Login
+
+app.post('/login', async (req, res) => {
+  let user = await Users.findOne({ email: req.body.email })
+  if (user) {
+    let passCompare = req.body.password === user.password
+    if (passCompare) {
+      const data = {
+        id: user.id
+      }
+      const token = jwt.sign(data, 'secret')
+      res.status(200).send({
+        auth: true,
+        token: token
+      })
+    } else {
+      res.status(500).send({
+        auth: false,
+        error: "incorrect password"
+      })
+    }
+  } else {
+    res.status(500).send({
+      error: 'Email or Password Incorrect',
+      auth: false
+    })
+  }
 })
 
 app.listen(PORT, (error) => {
