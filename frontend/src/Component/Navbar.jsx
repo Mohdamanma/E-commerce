@@ -7,7 +7,7 @@ import { ShopContext } from '../Context/ShopContext'
 function Navbar() {
     const [menu, setMenu] = useState('Shop')
     const { getTotalCartItem } = useContext(ShopContext)
-    console.log("cart item are :", getTotalCartItem)
+    // console.log("cart item are :", getTotalCartItem)
     return (
         <div className='flex justify-around p-4 '>
             <div className='flex items-center'>
@@ -22,7 +22,7 @@ function Navbar() {
             </ul>
             <div className='relative flex items-center  md:gap-10 gap-2'>
                 <Link to='/login'>
-                    {localStorage.getItem('auth-token') ? <button className='md:w-40 w-28 h-10  outline-none text-xl cursor-pointer border border-black border-solid rounded-full active:bg-red-500 ' onClick={() => { localStorage.removeItem('auth-token'); }}>
+                    {localStorage.getItem('auth-token') ? <button className='md:w-40 w-28 h-10  outline-none text-xl cursor-pointer border border-black border-solid rounded-full active:bg-red-500 ' onClick={() => { localStorage.removeItem('auth-token'); window.location.reload() }}>
                         Logout</button> : <button className='md:w-40 w-28 h-10  outline-none text-xl cursor-pointer border border-black border-solid rounded-full active:bg-red-500 '>Login</button>}
                 </Link>
                 <Link to='/card'>

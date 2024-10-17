@@ -3,9 +3,15 @@ import star_icon from './Asset/Frontend_Assets/star_icon.png'
 import star_dull_icon from './Asset/Frontend_Assets/star_dull_icon.png'
 import { ShopContext } from '../Context/ShopContext'
 
-const ProductDisplay = ({ product }) => {
-  const { addToCart, cartItems } = useContext(ShopContext)
 
+
+const ProductDisplay = ({ product }) => {
+
+  const { addToCart } = useContext(ShopContext)
+
+  if (!product) {
+    return null
+  }
   return (
     <div className='lg:flex sm:mx-44 mx-14  gap-14 mt-7'>
       {/* LeftSide productDetails */}

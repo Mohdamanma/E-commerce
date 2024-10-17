@@ -131,7 +131,7 @@ app.get('/allproduct', async (req, res) => {
 
 //Create Schema UserModel
 
-const Users = mongoose.model('Users', {
+const Users = mongoose.model('users', {
   name: {
     type: String,
   },
@@ -225,7 +225,7 @@ const FetchUser = (req, res, next) => {
   } else {
     try {
       let data = jwt.verify(token, 'secret')
-      req.user = data.user
+      req.user = data.id
       next()
     } catch (error) {
       res.status(400).send("Please Authenticate with Valid Token")
@@ -237,14 +237,36 @@ const FetchUser = (req, res, next) => {
 //Adding Product in CardData
 
 app.post('/addtocart', FetchUser, async (req, res) => {
-  console.log(req.body, req.user)
+  // console.log("Cart Data :", req.body, req.user)
   let userData = await Users.findOne({ _id: req.user })
   userData.cartData[req.body.itemId] += 1
-  await Users.findOneAndUpdate({ _id: req.user.id }, { cartData: userData.cartData })
+  // console.log("Current User id :", userData)
+  await Users.findOneAndUpdate({ _id: req.user }, { cartData: userData.cartData })
   res.status(200).send({
     sucess: true,
     item: "Added"
   })
+})
+
+//Remove Product from cartData
+
+app.post('/removetocart', FetchUser, async (req, res) => {
+  let userData = await Users.findOne({ _id: req.user })
+  userData.cartData[req.body.itemId] -= 1
+  // console.log("Current User id :", userData)
+  await Users.findOneAndUpdate({ _id: req.user }, { cartData: userData.cartData })
+  res.status(200).send({
+    sucess: true,
+    item: "Removed"
+  })
+})
+
+//Get CartData
+
+app.post('/getcart', FetchUser, async (req, res) => {
+  let userCart = await Users.find({ _id: req.user })
+  // console.log("user cart DATA :", userCart[0].cartData)
+  res.json(userCart[0].cartData)
 })
 
 app.listen(PORT, (error) => {

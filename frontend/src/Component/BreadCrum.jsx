@@ -3,7 +3,9 @@ import arrow_icon from './Asset/Frontend_Assets/breadcrum_arrow.png'
 
 function BreadCrum({ product }) {
 
-
+  if (!product) {
+    return null
+  }
 
   return (
     <div className='flex items-center gap-4 sm:ml-44 my-2 ml-4 sm:my-7'>

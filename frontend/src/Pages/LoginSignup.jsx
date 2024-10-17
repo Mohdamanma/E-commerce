@@ -38,6 +38,7 @@ function LoginSignup() {
 
     if (responseData.auth) {
       localStorage.setItem('auth-token', responseData.token)
+      window.location.replace('/')
     } else {
       setError(responseData.error)
     }
