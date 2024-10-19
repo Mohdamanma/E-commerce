@@ -8,12 +8,11 @@ import NewsLetter from '../Component/NewsLetter'
 function Shop() {
   return (
     <div>
-      <Hero/>
-      <Popular/>
-      <Offer/>
-      <NewCollection/>
-      <NewsLetter/>
-   
+      <Hero />
+      <Popular />
+      <Offer />
+      <NewCollection />
+      <NewsLetter />
     </div>
   )
 }

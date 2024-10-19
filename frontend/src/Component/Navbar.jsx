@@ -22,7 +22,7 @@ function Navbar() {
             </ul>
             <div className='relative flex items-center  md:gap-10 gap-2'>
                 <Link to='/login'>
-                    {localStorage.getItem('auth-token') ? <button className='md:w-40 w-28 h-10  outline-none text-xl cursor-pointer border border-black border-solid rounded-full active:bg-red-500 ' onClick={() => { localStorage.removeItem('auth-token'); window.location.reload() }}>
+                    {localStorage.getItem('auth-token') ? <button className='md:w-40 w-28 h-10  outline-none text-xl cursor-pointer border border-black border-solid rounded-full active:bg-red-500 ' onClick={() => { localStorage.removeItem('auth-token'); window.location.replace('/login') }}>
                         Logout</button> : <button className='md:w-40 w-28 h-10  outline-none text-xl cursor-pointer border border-black border-solid rounded-full active:bg-red-500 '>Login</button>}
                 </Link>
                 <Link to='/card'>

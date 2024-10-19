@@ -19,7 +19,7 @@ mongoose.connect('mongodb+srv://muhammedaman986:aman369@cluster0.qzezx.mongodb.n
 //API Creaction
 
 app.get('/', (req, res) => {
-  res.send('Express App is Running')
+  console.log("Express App Running ")
 })
 
 const storage = multer.diskStorage({
