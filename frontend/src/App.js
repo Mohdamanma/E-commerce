@@ -16,7 +16,7 @@ function App() {
   return (
     <div>
       <BrowserRouter>
-        <Navbar />
+        {localStorage.getItem('auth-token') ? < Navbar /> : null}
         <Routes>
           <Route path='/' element={<Shop />} />
           <Route path='/mens' element={<ShopCategory category="men" banner={men_banner} />} />
@@ -30,7 +30,7 @@ function App() {
         </Routes>
         <Footer />
       </BrowserRouter>
-    </div>
+    </div >
   )
 }
 

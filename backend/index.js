@@ -19,7 +19,7 @@ mongoose.connect('mongodb+srv://muhammedaman986:aman369@cluster0.qzezx.mongodb.n
 //API Creaction
 
 app.get('/', (req, res) => {
-  res.send('Express App is Running')
+  console.log("Express App Running ")
 })
 
 const storage = multer.diskStorage({
@@ -131,7 +131,7 @@ app.get('/allproduct', async (req, res) => {
 
 //Create Schema UserModel
 
-const Users = mongoose.model('Users', {
+const Users = mongoose.model('users', {
   name: {
     type: String,
   },
@@ -199,8 +199,10 @@ app.post('/login', async (req, res) => {
       const token = jwt.sign(data, 'secret')
       res.status(200).send({
         auth: true,
-        token: token
+        token: token,
+        data: data
       })
+
     } else {
       res.status(500).send({
         auth: false,
@@ -213,6 +215,58 @@ app.post('/login', async (req, res) => {
       auth: false
     })
   }
+})
+
+//MiddleWare for FetchUser
+const FetchUser = (req, res, next) => {
+  const token = req.header('auth-token')
+  if (!token) {
+    res.status(400).send({ error: 'No Token Avaliable on LocalStorage' })
+  } else {
+    try {
+      let data = jwt.verify(token, 'secret')
+      req.user = data.id
+      next()
+    } catch (error) {
+      res.status(400).send("Please Authenticate with Valid Token")
+    }
+  }
+}
+
+
+//Adding Product in CardData
+
+app.post('/addtocart', FetchUser, async (req, res) => {
+  // console.log("Cart Data :", req.body, req.user)
+  let userData = await Users.findOne({ _id: req.user })
+  userData.cartData[req.body.itemId] += 1
+  // console.log("Current User id :", userData)
+  await Users.findOneAndUpdate({ _id: req.user }, { cartData: userData.cartData })
+  res.status(200).send({
+    sucess: true,
+    item: "Added"
+  })
+})
+
+//Remove Product from cartData
+
+app.post('/removetocart', FetchUser, async (req, res) => {
+  let userData = await Users.findOne({ _id: req.user })
+  userData.cartData[req.body.itemId] -= 1
+  // console.log("Current User id :", userData)
+  await Users.findOneAndUpdate({ _id: req.user }, { cartData: userData.cartData })
+  res.status(200).send({
+    sucess: true,
+    item: "Removed"
+  })
+})
+
+//Get CartData
+
+app.post('/getcart', FetchUser, async (req, res) => {
+  let userCart = await Users.find({ _id: req.user })
+  // console.log("user cart DATA :", userCart[0].cartData)
+  res.json(userCart[0].cartData)
 })
 
 app.listen(PORT, (error) => {
