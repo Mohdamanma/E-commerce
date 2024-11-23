@@ -1,7 +1,8 @@
 # [Genix E-commerce](https://genex-ecommerce.vercel.app/) 🎉
 
 Genex Online Ecommerce is a full-stack clothing store application built using Node.js, Express, MongoDB, and EJS, following the MVC architecture. It provides features like secure payment integration via Razorpay and email notifications with Nodemailer. The project emphasizes scalability, efficient CRUD operations, and an intuitive user experience.
-🌐 [Visit Occasionaly](https://genex-ecommerce.vercel.app/)
+
+🌐 [Visit Genix](https://genex-ecommerce.vercel.app/)
 
 ## About 📖
 
